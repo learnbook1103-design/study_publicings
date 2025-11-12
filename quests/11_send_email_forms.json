@@ -18,15 +18,15 @@
     },
     {
       "parameters": {
-        "sendTo": "={{ $json.query.address }}",
-        "subject": "={{ $json.query.subject }}",
-        "message": "={{ $json.query.content }}",
+        "sendTo": "={{ $('Get row(s) in sheet').item.json['option gmail'] }},{{ $json.com.join(\",\") }}",
+        "subject": "={{ $('Webhook').item.json.query.subject }}",
+        "message": "={{ $('Webhook').item.json.query.content }}",
         "options": {}
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        208,
+        864,
         0
       ],
       "id": "a6bae93f-d01c-4fdc-aa21-db84cbebff18",
@@ -38,11 +38,151 @@
           "name": "Gmail account"
         }
       }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15PSi6M5ssF-wcTMlC5ifEzl42g7iFld8CxvGtQasJdI",
+          "mode": "list",
+          "cachedResultName": "Member_informations",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PSi6M5ssF-wcTMlC5ifEzl42g7iFld8CxvGtQasJdI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PSi6M5ssF-wcTMlC5ifEzl42g7iFld8CxvGtQasJdI/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "이름",
+              "lookupValue": "정상민"
+            }
+          ]
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "firstDataRow": 18
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a7529c15-df89-4143-b6ba-cbb3cb7ef659",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YrGoiTlilmZodAVo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "15PSi6M5ssF-wcTMlC5ifEzl42g7iFld8CxvGtQasJdI"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PSi6M5ssF-wcTMlC5ifEzl42g7iFld8CxvGtQasJdI/edit#gid=0"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRangeA1",
+              "range": "=A{{ $json.row_number }}:B{{ $json.row_number+3 }}"
+            }
+          },
+          "returnFirstMatch": false
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        416,
+        0
+      ],
+      "id": "dcf7ae46-a58e-42c3-9294-761d6844cc92",
+      "name": "Get row(s) in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YrGoiTlilmZodAVo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "learnbook1103@gmail.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "46d30982-0317-46da-9d39-95c2107d9f79",
+      "name": "Aggregate"
     }
   ],
   "pinData": {},
   "connections": {
     "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
       "main": [
         [
           {
@@ -62,7 +202,7 @@
     "availableInMCP": false,
     "timeSavedPerExecution": 1
   },
-  "versionId": "f00f9be3-d5b6-4ade-b0ed-7ee3a1d51ea5",
+  "versionId": "83c23f48-45ce-4255-b38e-48764b8dda1e",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "93ca683c15815f25bc48eaee44b183a255bf0d31445cceee4f43eb666f6f03e3"
