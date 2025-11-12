@@ -18,8 +18,8 @@
     },
     {
       "parameters": {
-        "sendTo": "learnbook1103@gmail.com",
-        "subject": "={{ $json.query.fname }}",
+        "sendTo": "={{ $json.query.address }}",
+        "subject": "={{ $json.query.subject }}",
         "message": "={{ $json.query.content }}",
         "options": {}
       },
@@ -54,7 +54,7 @@
       ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1",
     "callerPolicy": "workflowsFromSameOwner",
@@ -62,7 +62,7 @@
     "availableInMCP": false,
     "timeSavedPerExecution": 1
   },
-  "versionId": "7e282657-b6f3-4ffe-9bdb-2b3a8a70ef89",
+  "versionId": "f00f9be3-d5b6-4ade-b0ed-7ee3a1d51ea5",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "93ca683c15815f25bc48eaee44b183a255bf0d31445cceee4f43eb666f6f03e3"
