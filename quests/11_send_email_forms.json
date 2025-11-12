@@ -18,7 +18,7 @@
     },
     {
       "parameters": {
-        "sendTo": "={{ $('Get row(s) in sheet').item.json['option gmail'] }},{{ $json.com.join(\",\") }}",
+        "sendTo": "={{ $json['option gmail'].join(\",\") }}",
         "subject": "={{ $('Webhook').item.json.query.subject }}",
         "message": "={{ $('Webhook').item.json.query.content }}",
         "options": {}
@@ -26,8 +26,8 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        864,
-        0
+        592,
+        192
       ],
       "id": "a6bae93f-d01c-4fdc-aa21-db84cbebff18",
       "name": "Send a message",
@@ -63,14 +63,7 @@
             }
           ]
         },
-        "options": {
-          "dataLocationOnSheet": {
-            "values": {
-              "rangeDefinition": "specifyRange",
-              "firstDataRow": 18
-            }
-          }
-        }
+        "options": {}
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
@@ -89,6 +82,26 @@
     },
     {
       "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "option gmail"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        400,
+        192
+      ],
+      "id": "46d30982-0317-46da-9d39-95c2107d9f79",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
         "documentId": {
           "__rl": true,
           "mode": "id",
@@ -104,21 +117,20 @@
         "options": {
           "dataLocationOnSheet": {
             "values": {
-              "rangeDefinition": "specifyRangeA1",
-              "range": "=A{{ $json.row_number }}:B{{ $json.row_number+3 }}"
+              "rangeDefinition": "specifyRange",
+              "firstDataRow": "={{ $json.row_number }}"
             }
-          },
-          "returnFirstMatch": false
+          }
         }
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        416,
+        400,
         0
       ],
-      "id": "dcf7ae46-a58e-42c3-9294-761d6844cc92",
-      "name": "Get row(s) in sheet1",
+      "id": "a3701c78-8dfd-46fe-a329-17cff877561d",
+      "name": "Get row(s) in sheet2",
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "YrGoiTlilmZodAVo",
@@ -128,23 +140,50 @@
     },
     {
       "parameters": {
-        "fieldsToAggregate": {
-          "fieldToAggregate": [
+        "maxItems": 4
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        592,
+        0
+      ],
+      "id": "53431e87-7726-4efb-abe7-af10798760b5",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
             {
-              "fieldToAggregate": "learnbook1103@gmail.com"
+              "id": "733988a2-5131-4405-a217-5849578045d3",
+              "leftValue": "={{ $json['option gmail'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
             }
-          ]
+          ],
+          "combinator": "and"
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
       "position": [
-        624,
-        0
+        208,
+        192
       ],
-      "id": "46d30982-0317-46da-9d39-95c2107d9f79",
-      "name": "Aggregate"
+      "id": "092e158e-0e49-45ce-8677-e32339075047",
+      "name": "Filter"
     }
   ],
   "pinData": {},
@@ -164,18 +203,7 @@
       "main": [
         [
           {
-            "node": "Get row(s) in sheet1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get row(s) in sheet1": {
-      "main": [
-        [
-          {
-            "node": "Aggregate",
+            "node": "Get row(s) in sheet2",
             "type": "main",
             "index": 0
           }
@@ -192,6 +220,39 @@
           }
         ]
       ]
+    },
+    "Get row(s) in sheet2": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -202,7 +263,7 @@
     "availableInMCP": false,
     "timeSavedPerExecution": 1
   },
-  "versionId": "83c23f48-45ce-4255-b38e-48764b8dda1e",
+  "versionId": "2f620fe1-0b2b-4bf0-a2dc-b47c3a304827",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "93ca683c15815f25bc48eaee44b183a255bf0d31445cceee4f43eb666f6f03e3"
