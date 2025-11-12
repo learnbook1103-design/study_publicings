@@ -9,12 +9,13 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        0,
+        16,
         0
       ],
       "id": "75931bb7-764a-4d7d-98ad-3f4e37217890",
       "name": "Webhook",
-      "webhookId": "ac3b2695-719a-4262-88c6-e4ada2c0432a"
+      "webhookId": "ac3b2695-719a-4262-88c6-e4ada2c0432a",
+      "disabled": true
     },
     {
       "parameters": {
@@ -26,8 +27,8 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        592,
-        192
+        832,
+        448
       ],
       "id": "a6bae93f-d01c-4fdc-aa21-db84cbebff18",
       "name": "Send a message",
@@ -59,7 +60,7 @@
           "values": [
             {
               "lookupColumn": "이름",
-              "lookupValue": "정상민"
+              "lookupValue": "황지상"
             }
           ]
         },
@@ -94,8 +95,8 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        400,
-        192
+        640,
+        448
       ],
       "id": "46d30982-0317-46da-9d39-95c2107d9f79",
       "name": "Aggregate"
@@ -162,6 +163,85 @@
           },
           "conditions": [
             {
+              "id": "71f59519-ad98-4043-af3c-d8e38313d21b",
+              "leftValue": "={{ $input.all().length }}",
+              "rightValue": 4,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        432,
+        432
+      ],
+      "id": "4617ae23-0cdd-4af2-b42e-b8d7c9cf3f49",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15PSi6M5ssF-wcTMlC5ifEzl42g7iFld8CxvGtQasJdI",
+          "mode": "list",
+          "cachedResultName": "Member_informations",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PSi6M5ssF-wcTMlC5ifEzl42g7iFld8CxvGtQasJdI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PSi6M5ssF-wcTMlC5ifEzl42g7iFld8CxvGtQasJdI/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        640,
+        272
+      ],
+      "id": "77be46e8-d6d5-479d-bd89-963b0b08e7d0",
+      "name": "Get row(s) in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YrGoiTlilmZodAVo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "maxItems": "={{4 - $('Filter').all().length }}"
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        848,
+        272
+      ],
+      "id": "73f425df-9977-47d4-9bd6-091ece26db1d",
+      "name": "Limit1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
               "id": "733988a2-5131-4405-a217-5849578045d3",
               "leftValue": "={{ $json['option gmail'] }}",
               "rightValue": "",
@@ -179,11 +259,88 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        208,
-        192
+        1024,
+        272
       ],
-      "id": "092e158e-0e49-45ce-8677-e32339075047",
+      "id": "4077c35f-9c91-42d2-bc4b-bf8a172c0543",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "733988a2-5131-4405-a217-5849578045d3",
+              "leftValue": "={{ $json['option gmail'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        432
+      ],
+      "id": "f421bba4-31cb-41b5-ba46-7dc50307a540",
       "name": "Filter"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['option gmail'].join(\",\") }},{{ $json['option gmail'].join(\",\") }}",
+        "subject": "=",
+        "message": "={{ $('Webhook').item.json.query.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1408,
+        272
+      ],
+      "id": "7659edfc-8f4a-49d8-b9dd-c3241eb578b8",
+      "name": "Send a message1",
+      "webhookId": "8a4247df-22df-49f7-836e-c7e8fce341e4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ARVwaRt0DgrQVO1b",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "option gmail"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        272
+      ],
+      "id": "100f0fca-42e4-40aa-98f4-6593dc99e4ee",
+      "name": "Aggregate1"
     }
   ],
   "pinData": {},
@@ -243,11 +400,73 @@
         ]
       ]
     },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Filter": {
       "main": [
         [
           {
-            "node": "Aggregate",
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
             "type": "main",
             "index": 0
           }
@@ -259,11 +478,10 @@
   "settings": {
     "executionOrder": "v1",
     "callerPolicy": "workflowsFromSameOwner",
-    "executionTimeout": -1,
     "availableInMCP": false,
     "timeSavedPerExecution": 1
   },
-  "versionId": "2f620fe1-0b2b-4bf0-a2dc-b47c3a304827",
+  "versionId": "a1435756-5166-4e7e-a45a-9a3697d06db1",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "93ca683c15815f25bc48eaee44b183a255bf0d31445cceee4f43eb666f6f03e3"
