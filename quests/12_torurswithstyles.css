@@ -1,0 +1,63 @@
+body {
+background-color: gainsboro;}
+.header {
+    background-color: cadetblue;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.menu {
+    background-color: lightgray;
+    padding: 10px;
+    text-align: center;
+}
+
+.menu a {
+    background-color: darkcyan;
+    padding: 10px 20px;
+    margin: 10px;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+}
+.section h2 {
+    border-bottom: 3px solid darkcyan;
+}
+.container {
+    background-color: gainsboro;
+    max-width: 900px;
+    margin: 10px auto;
+}
+.container a {
+    background-color: lightgray;
+    text-decoration: none;
+    color: black;
+}    
+hr {
+    border: 1px solid darkcyan;
+    margin: 20px 0;
+}
+.section {
+    background-color: white;
+    padding: 20px;
+    
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.contact-info {
+    background-color: lightgray;
+    padding: 15px;
+    border-left: 3px solid darkcyan;
+    margin-top: 20px;
+}
+
+.footer {
+    background-color: cadetblue;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 30px;
+}

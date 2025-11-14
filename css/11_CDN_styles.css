@@ -1,0 +1,22 @@
+div {
+     margin-top: 0px;
+     padding-top: 20px;
+     background-color: yellowgreen;
+     text-align: left;
+ }
+
+ .first-background {
+     background-color: lightblue;
+ }
+
+ span {
+     padding-left: 40px;
+     background: lightgray;
+     border: 3px solid red;
+ }
+
+ #second-border {
+     padding-left: 40px;
+     background: lightgray;
+     border: 3px solid green;
+ }
