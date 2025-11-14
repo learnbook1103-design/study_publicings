@@ -1,5 +1,6 @@
 body {
-background-color: gainsboro;}
+background-color: gainsboro;
+}
 .header {
     background-color: cadetblue;
     color: white;
@@ -32,6 +33,7 @@ background-color: gainsboro;}
     margin: 10px auto;
 }
 .container a {
+    padding : 10px;
     background-color: lightgray;
     text-decoration: none;
     color: black;
